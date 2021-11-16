@@ -1,0 +1,36 @@
+% The third final problem addressed on Coursera's MATLAB course. The goal was to create a function that was able to generate an echo from the input sound file "y" (a column vector)
+% with a specific amplitude ("amp") and a specific delay ("delay"), to later merge them together creating the "output" file where it was possible to listen to the input file and 
+% its echo. "Fs" indicates the sampling frequency of the sounds and it usually is a default value from MATLAB sound files.
+
+function output = echo_gen(y, Fs, delay, amp)
+rows_before_echo = Fs*delay;
+ind = zeros(size(y,1), size(y,2));
+ind_echo = zeros(round(rows_before_echo), 1);
+echo = ind;
+for ii = 1:length(y)
+    echo(ii, 1) = echo(ii,1) + y(ii,1)*amp;
+end
+echo = [ind_echo; echo];
+y = [y; ind_echo];
+output = y + echo;
+for iii = 1:length(output)
+    if output(iii,1) > 1
+        scale_int = max(output);
+        output = output/scale_int;
+    end
+end
+
+%%
+
+% The function echo_of_echo is another possibility it occurred to me during the completion of the assignment where the echo from the echo can be listened too, making the sound 
+% more natural than what the initial assignment specified.
+
+function output = echo_of_echo(y, Fs, delay, amp)
+rows_before_echo = Fs*delay;
+ind = zeros(size(y,1), size(y,2));
+ind_echo = zeros(rows_before_echo, 1);
+output = [y; ind_echo];
+for ii = 1:length(y)
+    output(ii + rows_before_echo,1) = output(ii + rows_before_echo,1) + output(ii,1)*amp;
+end
+end
