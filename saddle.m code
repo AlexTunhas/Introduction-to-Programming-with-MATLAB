@@ -1,0 +1,21 @@
+% The first final problem addressed on Coursera's MATLAB course. The goal was to create a function able to identify the saddle points in a given "M" array and add them to 
+% a new output array called "indices". Thus, it was possible to plot the matrix and mark the saddle points in red.
+
+function indices = saddle(M)
+positions = zeros(1,2);
+[row , col] = size(M);
+n = 1;
+for ii = 1:row
+    for jj = 1:col
+        if ((M(ii,jj)) >= (max(M(ii,:)))) && ((M(ii,jj)) <= (min(M(:,jj))))
+            positions(n,1) = ii;
+            positions(n,2) = jj;
+            n = n + 1;
+        end
+    end
+end
+if positions == zeros(1,2)
+    positions = [];
+end
+indices = positions;
+end
