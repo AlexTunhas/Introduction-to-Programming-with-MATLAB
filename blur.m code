@@ -1,0 +1,31 @@
+% The second final problem addressed on Coursera's MATLAB course. The goal was to create a function able to pixelate a given picture from the input "w" numerical variable and 
+% "img", the picture. "w" shows the size of the square matrix needed to average a single pixel from the picture to the pixels nearby.
+
+function output = blur(img,w)
+imgD = uint8(img);
+[row , col] = size(imgD);
+submatrix_size = 2*w+1;
+output = zeros(row,col);
+for ii = 1:row
+    for jj = 1:col
+        r1 = ii-w;
+        r2 = ii+w;
+        c1 = jj-w;
+        c2 = jj+w;
+            if r1 < 1
+                r1 = 1;
+            end
+            if r2 > row
+                r2 = row;
+            end
+            if c1 < 1
+                c1 =1;
+            end
+            if c2 > col
+                c2 = col;
+            end
+        submatrix = imgD((r1:r2),(c1:c2));
+        output(ii,jj) = sum(sum(submatrix))/numel(submatrix);
+    end
+end
+output = uint8(output);
